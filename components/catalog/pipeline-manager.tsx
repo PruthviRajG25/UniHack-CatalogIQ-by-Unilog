@@ -10,6 +10,8 @@ interface PipelineManagerProps {
   onEnrichmentComplete: (enriched: EnrichedProduct) => void;
   onNavigateToCommerce: () => void;
   onResetQueue?: () => void;
+  onAddSampleProduct?: () => void;
+  apiKey: string;
 }
 
 export function PipelineManager({
@@ -20,6 +22,8 @@ export function PipelineManager({
   onEnrichmentComplete,
   onNavigateToCommerce,
   onResetQueue,
+  onAddSampleProduct,
+  apiKey,
 }: PipelineManagerProps) {
   const handleSelectRaw = (prod: RawProduct) => {
     setSelectedProduct(prod);
@@ -45,6 +49,7 @@ export function PipelineManager({
             onStartEnrichment={handleSelectRaw}
             onEnrichAll={onEnrichAll}
             onResetQueue={onResetQueue}
+            onAddSampleProduct={onAddSampleProduct}
           />
         </div>
       </div>
@@ -55,6 +60,7 @@ export function PipelineManager({
           selectedProduct={selectedProduct}
           onEnrichmentComplete={onEnrichmentComplete}
           onNavigateToCommerce={onNavigateToCommerce}
+          apiKey={apiKey}
         />
       </div>
     </div>

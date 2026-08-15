@@ -5,6 +5,7 @@ interface RawCatalogProps {
   onStartEnrichment: (product: RawProduct) => void;
   onEnrichAll: () => void;
   onResetQueue?: () => void;
+  onAddSampleProduct?: () => void;
 }
 
 export function RawCatalog({
@@ -12,6 +13,7 @@ export function RawCatalog({
   onStartEnrichment,
   onEnrichAll,
   onResetQueue,
+  onAddSampleProduct,
 }: RawCatalogProps) {
   return (
     <div className="flex flex-col gap-5 w-full font-sans">
@@ -26,14 +28,25 @@ export function RawCatalog({
           </span>
         </div>
 
-        {products.length > 0 && (
-          <button
-            onClick={onEnrichAll}
-            className="bg-[#f4f4f5] hover:bg-[#e4e4e7] text-neutral-800 border border-[#e4e4e7] font-bold text-xs px-3.5 py-2 rounded-lg transition-all active:scale-95"
-          >
-            ⚡ Batch Ingest All
-          </button>
-        )}
+        <div className="flex gap-2">
+          {onAddSampleProduct && (
+            <button
+              onClick={onAddSampleProduct}
+              className="bg-white hover:bg-neutral-50 text-neutral-700 border border-[#e4e4e7] font-bold text-xs px-3 py-2 rounded-lg transition-all active:scale-95 shadow-sm"
+              title="Add a custom sample item to the queue"
+            >
+              ➕ Add Sample Item
+            </button>
+          )}
+          {products.length > 0 && (
+            <button
+              onClick={onEnrichAll}
+              className="bg-[#f4f4f5] hover:bg-[#e4e4e7] text-neutral-800 border border-[#e4e4e7] font-bold text-xs px-3.5 py-2 rounded-lg transition-all active:scale-95"
+            >
+              ⚡ Batch Ingest All
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Raw queue items table */}

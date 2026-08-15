@@ -9,6 +9,7 @@ interface EnrichmentHubProps {
   selectedProduct: RawProduct | null;
   onEnrichmentComplete: (enriched: EnrichedProduct) => void;
   onNavigateToCommerce: () => void;
+  apiKey: string;
 }
 
 interface LogLine {
@@ -21,6 +22,7 @@ export function EnrichmentHub({
   selectedProduct,
   onEnrichmentComplete,
   onNavigateToCommerce,
+  apiKey,
 }: EnrichmentHubProps) {
   const [pipelineState, setPipelineState] = useState<
     "idle" | "running" | "completed"
@@ -67,13 +69,62 @@ export function EnrichmentHub({
     setFinalResult(null);
 
     let currentStepIndex = 0;
-    const executeNextStep = () => {
+    let geminiData: any = null;
+
+    const executeNextStep = async () => {
       if (currentStepIndex >= activeSteps.length) {
         // Pipeline complete
         const enrichedVal = simulateEnrichment(
           selectedProduct,
           Math.floor(Math.random() * 100),
         );
+
+        if (geminiData) {
+          // Merge real Gemini output!
+          enrichedVal.Product_Name =
+            geminiData.Product_Name || enrichedVal.Product_Name;
+          enrichedVal.BRAND_NAME =
+            geminiData.BRAND_NAME || enrichedVal.BRAND_NAME;
+          enrichedVal.MANUFACTURER_NAME =
+            geminiData.MANUFACTURER_NAME || enrichedVal.MANUFACTURER_NAME;
+          enrichedVal.Classpath = geminiData.Classpath || enrichedVal.Classpath;
+          enrichedVal.Dept = geminiData.Dept || enrichedVal.Dept;
+          enrichedVal.Class = geminiData.Class || enrichedVal.Class;
+          enrichedVal.Fine = geminiData.Fine || enrichedVal.Fine;
+
+          if (geminiData.LENGTH) enrichedVal.LENGTH = String(geminiData.LENGTH);
+          if (geminiData.LENGTH_UOM)
+            enrichedVal.LENGTH_UOM = geminiData.LENGTH_UOM;
+          if (geminiData.WIDTH) enrichedVal.WIDTH = String(geminiData.WIDTH);
+          if (geminiData.WIDTH_UOM)
+            enrichedVal.WIDTH_UOM = geminiData.WIDTH_UOM;
+          if (geminiData.HEIGHT) enrichedVal.HEIGHT = String(geminiData.HEIGHT);
+          if (geminiData.HEIGHT_UOM)
+            enrichedVal.HEIGHT_UOM = geminiData.HEIGHT_UOM;
+          if (geminiData.WEIGHT) enrichedVal.WEIGHT = String(geminiData.WEIGHT);
+          if (geminiData.WEIGHT_UOM)
+            enrichedVal.WEIGHT_UOM = geminiData.WEIGHT_UOM;
+
+          if (geminiData["ATTRIBUTE_LABEL 1"])
+            enrichedVal["ATTRIBUTE_LABEL 1"] = geminiData["ATTRIBUTE_LABEL 1"];
+          if (geminiData["ATTRIBUTE_VALUE 1"])
+            enrichedVal["ATTRIBUTE_VALUE 1"] = geminiData["ATTRIBUTE_VALUE 1"];
+          if (geminiData["ATTRIBUTE_UOM 1"])
+            enrichedVal["ATTRIBUTE_UOM 1"] = geminiData["ATTRIBUTE_UOM 1"];
+
+          if (geminiData["ATTRIBUTE_LABEL 2"])
+            enrichedVal["ATTRIBUTE_LABEL 2"] = geminiData["ATTRIBUTE_LABEL 2"];
+          if (geminiData["ATTRIBUTE_VALUE 2"])
+            enrichedVal["ATTRIBUTE_VALUE 2"] = geminiData["ATTRIBUTE_VALUE 2"];
+          if (geminiData["ATTRIBUTE_UOM 2"])
+            enrichedVal["ATTRIBUTE_UOM 2"] = geminiData["ATTRIBUTE_UOM 2"];
+
+          if (geminiData.Standard_Approvals)
+            enrichedVal["Standard/Approvals"] = geminiData.Standard_Approvals;
+          if (geminiData.Prop_65) enrichedVal["Prop 65"] = geminiData.Prop_65;
+          if (geminiData.Validation_Log)
+            enrichedVal.Validation_Log = geminiData.Validation_Log;
+        }
 
         let finalScore = Number(enrichedVal.Quality_Score);
         const disabledCount = Object.values(enabledAgents).filter(
@@ -120,12 +171,50 @@ export function EnrichmentHub({
           `Extracting dimensions, metrics, and attribute sets...`,
           "extract",
         );
-        const temp = simulateEnrichment(selectedProduct, 0);
-        addLog(`Extracted Product Name: "${temp.Product_Name}"`, "extract");
-        addLog(`Extracted Brand Mapping: "${temp.BRAND_NAME}"`, "extract");
+        if (apiKey) {
+          addLog(
+            "Calling real-time Gemini API (gemini-2.5-flash)...",
+            "extract",
+          );
+          try {
+            const res = await fetch("/api/enrich", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ product: selectedProduct, apiKey }),
+            });
+            const responseData = await res.json();
+            if (responseData.success && responseData.data) {
+              const data = responseData.data;
+              geminiData = data;
+              addLog(
+                `[Gemini] Extracted Product Name: "${data.Product_Name}"`,
+                "success",
+              );
+              addLog(`[Gemini] Mapped Brand: "${data.BRAND_NAME}"`, "success");
+            } else {
+              addLog(
+                `Gemini API returned error fallback: ${responseData.error || "unknown"}. Running local parsing rules.`,
+                "info",
+              );
+            }
+          } catch (e: any) {
+            addLog(
+              `Error querying Gemini model: ${e.message}. Using fallback.`,
+              "info",
+            );
+          }
+        } else {
+          addLog(
+            `No custom API Key provided. Running local rules extraction.`,
+            "info",
+          );
+          const temp = simulateEnrichment(selectedProduct, 0);
+          addLog(`Extracted Product Name: "${temp.Product_Name}"`, "extract");
+          addLog(`Extracted Brand Mapping: "${temp.BRAND_NAME}"`, "extract");
+        }
       } else if (step.id === "taxonomy") {
         addLog(`Launching Taxonomy & Categorization Agent...`, "info");
-        const temp = simulateEnrichment(selectedProduct, 0);
+        const temp = geminiData || simulateEnrichment(selectedProduct, 0);
         addLog(`Mapped classpath: "${temp.Classpath}"`, "info");
       } else if (step.id === "compliance") {
         addLog(`Launching Compliance & Validation Agent...`, "validate");

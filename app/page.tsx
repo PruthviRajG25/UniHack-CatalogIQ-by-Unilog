@@ -114,9 +114,22 @@ export default function CatalogIQApp() {
             setSelectedProduct={setSelectedRawProduct}
             onEnrichmentComplete={handleEnrichmentComplete}
             onNavigateToCommerce={() => setActiveTab("commerce")}
+            apiKey={apiKey}
             onResetQueue={() => {
               setRawProducts(RAW_CATALOG);
               setSelectedRawProduct(null);
+            }}
+            onAddSampleProduct={() => {
+              const newSample = {
+                Mfg_Part_Num: `SAMPLE-${Math.floor(1000 + Math.random() * 9000)}`,
+                Part_Desc:
+                  "Lutron Diva LED+ Dimmer Switch for Dimmable LED, 150-Watt Single-Pole or 3-Way, White",
+                E1_Brand: "LUTRON",
+                Unilog_Brand: "-- No Unilog Brand --",
+                DIB_Brand: "-- No DIB Brand --",
+                Part_Manuf: "Lutron Electronics (LUTRO)",
+              };
+              setRawProducts((prev) => [newSample, ...prev]);
             }}
           />
         )}
