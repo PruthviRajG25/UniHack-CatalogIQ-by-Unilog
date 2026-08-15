@@ -4,12 +4,14 @@ interface RawCatalogProps {
   products: RawProduct[];
   onStartEnrichment: (product: RawProduct) => void;
   onEnrichAll: () => void;
+  onResetQueue?: () => void;
 }
 
 export function RawCatalog({
   products,
   onStartEnrichment,
   onEnrichAll,
+  onResetQueue,
 }: RawCatalogProps) {
   return (
     <div className="flex flex-col gap-5 w-full font-sans">
@@ -37,8 +39,18 @@ export function RawCatalog({
       {/* Raw queue items table */}
       <div className="bg-white border border-[#e4e4e7] rounded-xl overflow-hidden shadow-sm">
         {products.length === 0 ? (
-          <div className="p-8 text-center text-xs text-neutral-400 font-medium">
-            No raw items in queue. All records processed.
+          <div className="p-8 text-center flex flex-col items-center gap-3">
+            <span className="text-xs text-neutral-400 font-semibold">
+              No raw items in queue. All records processed.
+            </span>
+            {onResetQueue && (
+              <button
+                onClick={onResetQueue}
+                className="bg-[#0284c7] hover:bg-[#0369a1] text-white font-bold text-[11px] px-4 py-2 rounded-lg transition-all active:scale-95 shadow-sm mt-1"
+              >
+                🔄 Reset Ingestion Queue
+              </button>
+            )}
           </div>
         ) : (
           <table className="min-w-full divide-y divide-[#e4e4e7] text-left text-xs">

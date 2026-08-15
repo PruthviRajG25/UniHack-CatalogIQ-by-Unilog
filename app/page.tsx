@@ -114,6 +114,10 @@ export default function CatalogIQApp() {
             setSelectedProduct={setSelectedRawProduct}
             onEnrichmentComplete={handleEnrichmentComplete}
             onNavigateToCommerce={() => setActiveTab("commerce")}
+            onResetQueue={() => {
+              setRawProducts(RAW_CATALOG);
+              setSelectedRawProduct(null);
+            }}
           />
         )}
         {activeTab === "commerce" && (
