@@ -1,0 +1,130 @@
+@import "tailwindcss";
+
+@theme {
+  --color-mural-green: #10b981;
+  --color-mural-lavender: #d1e0ff;
+  --color-mural-dark: #09090b;
+  --color-mural-beige: #faf8f5;
+  --color-mural-purple: #8b5cf6;
+  --color-mural-blue: #0284c7;
+  --color-mural-orange: #f97316;
+  --color-mural-pink: #ec4899;
+  --color-mural-violet: #a78bfa;
+
+  --font-sans: var(--font-sans), sans-serif;
+  --font-serif: var(--font-serif), Georgia, serif;
+}
+
+:root {
+  --background: #fdfdfd;
+  --foreground: #09090b;
+  --card: #ffffff;
+  --card-foreground: #09090b;
+  --popover: #ffffff;
+  --popover-foreground: #09090b;
+  --primary: #0284c7;
+  --primary-foreground: #ffffff;
+  --secondary: #f4f4f5;
+  --secondary-foreground: #09090b;
+  --muted: #f4f4f5;
+  --muted-foreground: #71717a;
+  --accent: #f4f4f5;
+  --accent-foreground: #09090b;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --border: #e4e4e7;
+  --input: #e4e4e7;
+  --ring: #a1a1aa;
+
+  --gradient-ember: linear-gradient(
+    135deg,
+    #0284c7 0%,
+    #0369a1 50%,
+    #075985 100%
+  );
+  --gradient-forge: radial-gradient(
+    ellipse at top left,
+    rgba(2, 132, 199, 0.05) 0%,
+    rgba(139, 92, 246, 0.02) 50%,
+    transparent 100%
+  );
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  /* Perfect grid pattern background from the screenshot */
+  background-image:
+    linear-gradient(to right, rgba(228, 228, 231, 0.6) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(228, 228, 231, 0.6) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* Custom panels and styles from the template design */
+.panel {
+  background-color: #ffffff;
+  border: 1px solid #e4e4e7;
+  border-radius: 12px;
+}
+
+.label-mono {
+  font-family: monospace;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: #71717a;
+}
+
+.ember-gradient-text {
+  background: var(--gradient-ember);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Custom indicator state colors */
+.bg-verified {
+  background-color: rgba(16, 185, 129, 0.1);
+  color: #10b981;
+}
+
+.bg-signal {
+  background-color: #10b981;
+}
+
+.bg-caution {
+  background-color: #f59e0b;
+}
+
+.bg-critical {
+  background-color: #ef4444;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.32, 1) forwards;
+}
+
+@keyframes slideLeft {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.animate-slideLeft {
+  animation: slideLeft 0.3s cubic-bezier(0.16, 1, 0.32, 1) forwards;
+}
