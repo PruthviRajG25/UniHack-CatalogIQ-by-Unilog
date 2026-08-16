@@ -69,7 +69,7 @@ export function EnrichmentHub({
     setFinalResult(null);
 
     let currentStepIndex = 0;
-    let geminiData: any = null;
+    let geminiData: Record<string, string> | null = null;
 
     const executeNextStep = async () => {
       if (currentStepIndex >= activeSteps.length) {
@@ -171,41 +171,35 @@ export function EnrichmentHub({
           `Extracting dimensions, metrics, and attribute sets...`,
           "extract",
         );
-        if (apiKey) {
-          addLog(
-            "Calling real-time Gemini API (gemini-2.5-flash)...",
-            "extract",
-          );
-          try {
-            const res = await fetch("/api/enrich", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ product: selectedProduct, apiKey }),
-            });
-            const responseData = await res.json();
-            if (responseData.success && responseData.data) {
-              const data = responseData.data;
-              geminiData = data;
-              addLog(
-                `[Gemini] Extracted Product Name: "${data.Product_Name}"`,
-                "success",
-              );
-              addLog(`[Gemini] Mapped Brand: "${data.BRAND_NAME}"`, "success");
-            } else {
-              addLog(
-                `Gemini API returned error fallback: ${responseData.error || "unknown"}. Running local parsing rules.`,
-                "info",
-              );
-            }
-          } catch (e: any) {
+        addLog("Calling real-time Gemini API (gemini-2.5-flash)...", "extract");
+        try {
+          const res = await fetch("/api/enrich", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ product: selectedProduct, apiKey }),
+          });
+          const responseData = await res.json();
+          if (responseData.success && responseData.data) {
+            const data = responseData.data;
+            geminiData = data;
             addLog(
-              `Error querying Gemini model: ${e.message}. Using fallback.`,
+              `[Gemini] Extracted Product Name: "${data.Product_Name}"`,
+              "success",
+            );
+            addLog(`[Gemini] Mapped Brand: "${data.BRAND_NAME}"`, "success");
+          } else {
+            addLog(
+              `Gemini API info: ${responseData.error || "fallback active"}. Running local parsing rules.`,
               "info",
             );
+            const temp = simulateEnrichment(selectedProduct, 0);
+            addLog(`Extracted Product Name: "${temp.Product_Name}"`, "extract");
+            addLog(`Extracted Brand Mapping: "${temp.BRAND_NAME}"`, "extract");
           }
-        } else {
+        } catch (e: unknown) {
+          const errMsg = e instanceof Error ? e.message : String(e);
           addLog(
-            `No custom API Key provided. Running local rules extraction.`,
+            `Error querying Gemini model: ${errMsg}. Using fallback.`,
             "info",
           );
           const temp = simulateEnrichment(selectedProduct, 0);
