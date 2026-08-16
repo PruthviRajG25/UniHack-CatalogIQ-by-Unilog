@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="catalog-iq-logo">
+  <!-- Outer Rounded Diamond -->
+  <path d="M12 2L2 12l10 10 10-10L12 2z" fill="url(#grad)" stroke="url(#stroke-grad)" />
+  <!-- Nested Catalog / Database Layers -->
+  <path d="M7 10h10" stroke="#ffffff" stroke-width="2" />
+  <path d="M7 14h10" stroke="#ffffff" stroke-width="2" />
+  <!-- Neural Link node indicating AI -->
+  <circle cx="12" cy="7" r="1.5" fill="#ffffff" stroke="none" />
+  <circle cx="15" cy="14" r="1.5" fill="#ffffff" stroke="none" />
+  <path d="M12 8.5v3.5l1.5 1" stroke="#ffffff" stroke-width="1.5" stroke-dasharray="1 1" />
+  
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7" />
+      <stop offset="100%" stop-color="#075985" />
+    </linearGradient>
+    <linearGradient id="stroke-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+  </defs>
+</svg>

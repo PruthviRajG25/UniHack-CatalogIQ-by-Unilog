@@ -177,28 +177,14 @@ export function Header({
         {/* Brand Logo & Name */}
         <div className="flex items-center gap-3">
           <div
-            className="grid size-9 place-items-center rounded-md bg-[image:linear-gradient(135deg,#0284c7_0%,#0369a1_50%,#075985_100%)] shadow-[0_0_15px_rgba(2,132,199,0.2)] cursor-pointer"
+            className="grid size-9 place-items-center rounded-md bg-[image:linear-gradient(135deg,#0284c7_0%,#0369a1_50%,#075985_100%)] shadow-[0_0_15px_rgba(2,132,199,0.2)] cursor-pointer p-1.5"
             onClick={() => setActiveTab("dashboard")}
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="lucide lucide-circuit-board size-4.5 text-white"
-              aria-hidden="true"
-            >
-              <rect width="18" height="18" x="3" y="3" rx="2"></rect>
-              <path d="M11 9h4a2 2 0 0 0 2-2V3"></path>
-              <circle cx="9" cy="9" r="2"></circle>
-              <path d="M7 21v-4a2 2 0 0 1 2-2h4"></path>
-              <circle cx="15" cy="15" r="2"></circle>
-            </svg>
+            <img
+              src="/logo.svg"
+              alt="Catalog IQ Logo"
+              className="w-full h-full text-white"
+            />
           </div>
           <div className="leading-tight select-none">
             <p className="font-display text-sm font-bold tracking-tight text-neutral-950">

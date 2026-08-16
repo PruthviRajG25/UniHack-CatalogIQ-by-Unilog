@@ -15,8 +15,12 @@ const serif = Lora({
 });
 
 export const metadata: Metadata = {
-  title: "Mural - Make work make sense",
-  description: "Teamwork feels like less work with Mural.",
+  title: "Catalog IQ - Automated Product Catalog Intelligence",
+  description:
+    "Transforming unstructured supplier catalogs and specification sheets into standardized, e-commerce-ready data tables.",
+  icons: {
+    icon: "/logo.svg",
+  },
 };
 
 export default function RootLayout({
