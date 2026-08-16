@@ -1,5 +1,6 @@
 import type React from "react";
 import { useState } from "react";
+import Link from "next/link";
 
 interface AuthPageProps {
   onLoginSuccess: (userEmail: string) => void;
@@ -293,19 +294,19 @@ export function AuthPage({ onLoginSuccess }: AuthPageProps) {
         {/* Footer info at bottom right */}
         <div className="text-center text-[10px] text-neutral-500 font-medium leading-relaxed max-w-xs mx-auto select-none mt-auto">
           <span>By signing in, you agree to our </span>
-          <a
-            href="#"
+          <Link
+            href="/terms"
             className="underline text-neutral-400 hover:text-neutral-200"
           >
             Terms of Service
-          </a>{" "}
+          </Link>{" "}
           <span>and </span>
-          <a
-            href="#"
+          <Link
+            href="/privacy"
             className="underline text-neutral-400 hover:text-neutral-200"
           >
             Privacy Policy
-          </a>
+          </Link>
           <div className="text-neutral-600 mt-2 font-mono text-[9px]">
             SECURE SHA-256 JWT AUTH
           </div>
