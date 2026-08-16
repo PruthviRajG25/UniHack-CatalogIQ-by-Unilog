@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AuthPage } from "@/components/auth/auth-page";
 import { Dashboard } from "@/components/catalog/dashboard";
 import { PipelineManager } from "@/components/catalog/pipeline-manager";
@@ -18,6 +18,41 @@ import {
 } from "@/lib/data";
 
 export default function CatalogIQApp() {
+  const [isDark, setIsDark] = useState(true);
+
+  // Sync theme to root element html class
+  useEffect(() => {
+    const saved = localStorage.getItem("theme");
+    const initialTheme = saved ? saved === "dark" : true;
+    setIsDark(initialTheme);
+
+    const root = window.document.documentElement;
+    if (initialTheme) {
+      root.classList.add("dark-theme");
+      root.classList.remove("light-theme");
+    } else {
+      root.classList.add("light-theme");
+      root.classList.remove("dark-theme");
+    }
+  }, []);
+
+  useEffect(() => {
+    const root = window.document.documentElement;
+    if (isDark) {
+      root.classList.add("dark-theme");
+      root.classList.remove("light-theme");
+    } else {
+      root.classList.add("light-theme");
+      root.classList.remove("dark-theme");
+    }
+  }, [isDark]);
+
+  const toggleTheme = () => {
+    const nextTheme = !isDark;
+    setIsDark(nextTheme);
+    localStorage.setItem("theme", nextTheme ? "dark" : "light");
+  };
+
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userEmail, setUserEmail] = useState("");
   const [apiKey, setApiKey] = useState("");
@@ -82,11 +117,17 @@ export default function CatalogIQApp() {
 
   // If not authenticated, render the Auth view
   if (!isLoggedIn) {
-    return <AuthPage onLoginSuccess={handleLoginSuccess} />;
+    return (
+      <AuthPage
+        onLoginSuccess={handleLoginSuccess}
+        isDark={isDark}
+        toggleTheme={toggleTheme}
+      />
+    );
   }
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-[#fafafa] flex flex-col font-sans">
+    <div className="min-h-screen flex flex-col font-sans transition-colors duration-300 bg-[color:var(--background)] text-[color:var(--foreground)]">
       {/* Top Header Navigation */}
       <Header
         activeTab={activeTab}
@@ -95,6 +136,8 @@ export default function CatalogIQApp() {
         onLogout={handleLogout}
         onRunEnrichment={handleEnrichAll}
         rawProductsCount={rawProducts.length}
+        isDark={isDark}
+        toggleTheme={toggleTheme}
       />
 
       {/* Main Workspace Panels Content */}

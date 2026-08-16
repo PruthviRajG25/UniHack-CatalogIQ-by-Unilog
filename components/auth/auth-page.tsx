@@ -4,9 +4,15 @@ import Link from "next/link";
 
 interface AuthPageProps {
   onLoginSuccess: (userEmail: string) => void;
+  isDark?: boolean;
+  toggleTheme?: () => void;
 }
 
-export function AuthPage({ onLoginSuccess }: AuthPageProps) {
+export function AuthPage({
+  onLoginSuccess,
+  isDark = true,
+  toggleTheme,
+}: AuthPageProps) {
   const [email, setEmail] = useState("admin@catalogiq.ai");
   const [password, setPassword] = useState("admin123");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -32,9 +38,54 @@ export function AuthPage({ onLoginSuccess }: AuthPageProps) {
   };
 
   return (
-    <div className="w-full min-h-screen bg-[#09090b] text-[#fafafa] flex font-sans overflow-hidden relative">
+    <div className="w-full min-h-screen bg-[color:var(--background)] text-[color:var(--foreground)] flex font-sans overflow-hidden relative">
       {/* Background gradients */}
       <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_top_right,rgba(2,132,199,0.06),transparent_50%),radial-gradient(circle_at_bottom_left,rgba(139,92,246,0.02),transparent_50%)] pointer-events-none"></div>
+
+      {/* Theme Toggle Button */}
+      {toggleTheme && (
+        <div className="absolute top-6 right-6 z-20">
+          <button
+            onClick={toggleTheme}
+            className={`p-2 rounded-lg border transition-all cursor-pointer ${
+              isDark
+                ? "border-neutral-800 hover:bg-neutral-800 text-yellow-400 bg-neutral-900"
+                : "border-neutral-200 hover:bg-neutral-100 text-[#0284c7] bg-white shadow-sm"
+            }`}
+            title="Toggle Dark/Light Mode"
+          >
+            {isDark ? (
+              <svg
+                className="w-4.5 h-4.5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 3v1m0 16v1m9-9h-1M4 9H3m15.364-3.636l-.707.707M6.343 17.657l-.707-.707m0-12.728l.707.707m12.728 12.728l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"
+                />
+              </svg>
+            ) : (
+              <svg
+                className="w-4.5 h-4.5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+                />
+              </svg>
+            )}
+          </button>
+        </div>
+      )}
 
       {/* Left Panel: Ingestor Mockup & Branding */}
       <div className="relative hidden md:flex md:w-1/2 lg:w-3/5 border-r border-[#1f1f23] flex-col justify-between p-12 overflow-hidden bg-black/40">

@@ -35,6 +35,7 @@
   --border: #e4e4e7;
   --input: #e4e4e7;
   --ring: #a1a1aa;
+  --grid-color: rgba(228, 228, 231, 0.6);
 
   --gradient-ember: linear-gradient(
     135deg,
@@ -50,15 +51,143 @@
   );
 }
 
+.dark-theme {
+  --background: #09090b;
+  --foreground: #fafafa;
+  --card: #0c0c0e;
+  --card-foreground: #fafafa;
+  --popover: #0c0c0e;
+  --popover-foreground: #fafafa;
+  --primary: #0284c7;
+  --primary-foreground: #ffffff;
+  --secondary: #121214;
+  --secondary-foreground: #fafafa;
+  --muted: #18181b;
+  --muted-foreground: #a1a1aa;
+  --accent: #18181b;
+  --accent-foreground: #fafafa;
+  --border: #1f1f23;
+  --input: #1f1f23;
+  --ring: #3f3f46;
+  --grid-color: rgba(39, 39, 42, 0.25);
+}
+
 body {
   background-color: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
   /* Perfect grid pattern background from the screenshot */
   background-image:
-    linear-gradient(to right, rgba(228, 228, 231, 0.6) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(228, 228, 231, 0.6) 1px, transparent 1px);
+    linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
   background-size: 32px 32px;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    background-image 0.3s ease;
+}
+
+/* Dark Theme Overrides for Tailwind classes */
+.dark-theme .bg-white,
+.dark-theme .panel {
+  background-color: #0c0c0e !important;
+  border-color: #1f1f23 !important;
+  color: #fafafa !important;
+}
+
+.dark-theme .bg-\[\#f8fafc\],
+.dark-theme .bg-\[\#f1f5f9\],
+.dark-theme .bg-slate-50,
+.dark-theme .bg-neutral-50,
+.dark-theme .bg-sky-50 {
+  background-color: #121214 !important;
+  color: #fafafa !important;
+  border-color: #1f1f23 !important;
+}
+
+.dark-theme .border-\[\#e4e4e7\],
+.dark-theme .border-neutral-200,
+.dark-theme .border {
+  border-color: #1f1f23 !important;
+}
+
+.dark-theme .text-neutral-900,
+.dark-theme .text-neutral-950,
+.dark-theme .text-neutral-800,
+.dark-theme .text-neutral-700,
+.dark-theme .text-neutral-600 {
+  color: #d4d4d8 !important;
+}
+
+.dark-theme .text-neutral-400,
+.dark-theme .text-neutral-500 {
+  color: #71717a !important;
+}
+
+.dark-theme header,
+.dark-theme header .bg-white {
+  background-color: rgba(9, 9, 11, 0.85) !important;
+  border-color: #1f1f23 !important;
+  color: #fafafa !important;
+}
+
+.dark-theme header nav.bg-\[\#f4f4f5\],
+.dark-theme header button.bg-\[\#f4f4f5\],
+.dark-theme .bg-\[\#f4f4f5\] {
+  background-color: #18181b !important;
+  border-color: #27272a !important;
+  color: #fafafa !important;
+}
+
+.dark-theme header button {
+  color: #d4d4d8 !important;
+}
+
+.dark-theme header button:hover {
+  color: #ffffff !important;
+}
+
+.dark-theme input,
+.dark-theme select,
+.dark-theme textarea {
+  background-color: #0c0c0e !important;
+  color: #fafafa !important;
+  border-color: #1f1f23 !important;
+}
+
+.dark-theme .text-neutral-950 {
+  color: #ffffff !important;
+}
+
+/* Custom indicator state overrides under dark mode */
+.dark-theme .bg-verified {
+  background-color: rgba(16, 185, 129, 0.15) !important;
+  color: #34d399 !important;
+}
+
+/* Ensure knowledge graph nodes are legible in dark theme */
+.dark-theme .bg-purple-50 {
+  background-color: rgba(139, 92, 246, 0.15) !important;
+  color: #c084fc !important;
+  border-color: rgba(139, 92, 246, 0.3) !important;
+}
+
+.dark-theme .bg-green-50 {
+  background-color: rgba(16, 185, 129, 0.15) !important;
+  color: #34d399 !important;
+  border-color: rgba(16, 185, 129, 0.3) !important;
+}
+
+.dark-theme .bg-orange-50 {
+  background-color: rgba(249, 115, 22, 0.15) !important;
+  color: #fb923c !important;
+  border-color: rgba(249, 115, 22, 0.3) !important;
+}
+
+.dark-theme .bg-blue-50 {
+  background-color: rgba(2, 132, 199, 0.15) !important;
+  color: #38bdf8 !important;
+  border-color: rgba(2, 132, 199, 0.3) !important;
 }
 
 /* Custom panels and styles from the template design */
