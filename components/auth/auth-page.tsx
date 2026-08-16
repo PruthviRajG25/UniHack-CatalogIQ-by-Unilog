@@ -31,95 +31,158 @@ export function AuthPage({ onLoginSuccess }: AuthPageProps) {
   };
 
   return (
-    <div className="w-full h-screen flex flex-col justify-between bg-[#f8fafc] text-neutral-900 font-sans relative overflow-hidden">
-      {/* 1. Top Cookie Alert Banner - Prominent Dark contrasting */}
-      {showCookieBanner && (
-        <div className="w-full bg-[#1c1c1e] border-b border-neutral-800 py-3.5 px-5 flex flex-col sm:flex-row items-center justify-between gap-4 z-50 text-xs font-semibold animate-fadeIn shadow-lg">
-          <div className="flex items-center gap-2">
-            <span>🍪</span>
-            <span className="text-neutral-300">
-              We use cookies to enhance your development experience and keep
-              your data secure.{" "}
-              <a
-                href="#"
-                className="underline text-white hover:text-neutral-200"
-              >
-                Privacy Policy
-              </a>{" "}
-              &middot;{" "}
-              <a
-                href="#"
-                className="underline text-white hover:text-neutral-200"
-              >
-                Cookie Policy
-              </a>
-            </span>
+    <div className="w-full min-h-screen bg-[#09090b] text-[#fafafa] flex font-sans overflow-hidden relative">
+      {/* Background gradients */}
+      <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_top_right,rgba(2,132,199,0.06),transparent_50%),radial-gradient(circle_at_bottom_left,rgba(139,92,246,0.02),transparent_50%)] pointer-events-none"></div>
+
+      {/* Left Panel: Ingestor Mockup & Branding */}
+      <div className="relative hidden md:flex md:w-1/2 lg:w-3/5 border-r border-[#1f1f23] flex-col justify-between p-12 overflow-hidden bg-black/40">
+        {/* Soft Radial Ambient Light */}
+        <div className="absolute top-1/4 left-1/3 w-[400px] h-[400px] bg-[radial-gradient(circle,rgba(2,132,199,0.12)_0%,transparent_70%)] pointer-events-none blur-3xl"></div>
+
+        {/* Top Header Logo */}
+        <div className="flex items-center gap-3 relative z-10 select-none">
+          <div className="grid size-9 place-items-center rounded-lg bg-gradient-to-br from-[#0284c7] to-[#075985] shadow-[0_0_20px_rgba(2,132,199,0.35)] p-1.5 border border-sky-400/20">
+            <img
+              src="/logo.svg"
+              alt="Catalog IQ Logo"
+              className="w-full h-full"
+            />
           </div>
-          <div className="flex gap-3">
-            <button
-              onClick={() => setShowCookieBanner(false)}
-              className="text-neutral-400 hover:text-white px-2.5 py-1 rounded transition-colors"
-            >
-              Manage preferences
-            </button>
-            <button
-              onClick={() => setShowCookieBanner(false)}
-              className="bg-neutral-800 hover:bg-neutral-700 text-white font-bold px-4 py-1.5 rounded-lg border border-neutral-700 transition-colors"
-            >
-              OK
-            </button>
+          <div className="leading-tight">
+            <h1 className="text-sm font-bold tracking-tight text-white uppercase">
+              CATALOG IQ
+            </h1>
+            <p className="font-mono text-[8px] text-neutral-500 uppercase tracking-wider font-semibold">
+              Product intelligence OS
+            </p>
           </div>
         </div>
-      )}
 
-      {/* 2. Main Login Form Container */}
-      <div className="flex-grow flex items-center justify-center p-6 relative">
-        {/* Soft Background Radial Light */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[radial-gradient(circle,rgba(2,132,199,0.04)_0%,rgba(139,92,246,0.01)_60%,transparent_100%)] pointer-events-none"></div>
-
-        <div className="w-full max-w-sm flex flex-col items-center gap-8 relative z-10">
-          {/* Logo Brand Title */}
-          <div className="flex items-center gap-3">
-            <div className="grid size-9 place-items-center rounded-md bg-[image:linear-gradient(135deg,#0284c7_0%,#0369a1_50%,#075985_100%)] shadow-[0_0_15px_rgba(2,132,199,0.2)] p-1.5">
-              <img
-                src="/logo.svg"
-                alt="Catalog IQ Logo"
-                className="w-full h-full text-white"
-              />
-            </div>
-            <div className="leading-tight">
-              <h1 className="text-sm font-bold tracking-tight text-neutral-900">
-                CATALOG IQ
-              </h1>
-              <p className="label-mono !text-[8px] text-neutral-400">
-                Product intelligence OS
-              </p>
-            </div>
+        {/* Center: Live Multi-Agent Execution Visualization */}
+        <div className="flex flex-col gap-6 max-w-lg my-auto relative z-10 w-full">
+          <div>
+            <h2 className="text-3xl font-serif text-white tracking-tight leading-tight">
+              Ingest messy vendor data sheets into clean, structured catalogs.
+            </h2>
+            <p className="text-xs text-neutral-400 mt-2 font-medium max-w-sm">
+              Our multi-agent pipeline orchestrates crawls, LLM extractions,
+              taxonomy mapping, and regulatory compliance automatically.
+            </p>
           </div>
 
-          <div className="w-full bg-white border border-[#e4e4e7] rounded-2xl p-8 shadow-[0_15px_40px_rgba(0,0,0,0.04)] flex flex-col gap-6">
-            {/* Login Header text */}
-            <div className="text-center">
-              <h2 className="text-xl font-bold tracking-tight text-neutral-950">
-                Log in
-              </h2>
-              <p className="text-[11px] text-neutral-400 font-medium mt-1">
-                Authenticate to access the intelligence OS
-              </p>
+          {/* Interactive Agent Process Simulator Box */}
+          <div className="bg-[#0c0c0e]/80 backdrop-blur-xl border border-[#1f1f23] rounded-2xl p-6 shadow-2xl w-full">
+            <div className="flex justify-between items-center border-b border-[#1f1f23] pb-3.5 mb-4 select-none">
+              <div className="flex gap-1.5">
+                <div className="w-2 h-2 rounded-full bg-neutral-700"></div>
+                <div className="w-2 h-2 rounded-full bg-neutral-700"></div>
+                <div className="w-2 h-2 rounded-full bg-neutral-700"></div>
+              </div>
+              <span className="font-mono text-[8px] text-[#0284c7] bg-sky-950/40 px-2 py-0.5 rounded border border-sky-900/30 uppercase tracking-widest font-bold">
+                agent-enrichment-stream
+              </span>
             </div>
 
-            {/* Social OAuth Buttons */}
-            <div className="flex flex-col gap-2.5">
+            <div className="flex flex-col gap-4 font-mono text-[10.5px]">
+              {/* Row 1: Raw record input */}
+              <div className="flex flex-col gap-1.5 p-3 rounded-xl bg-neutral-950/40 border border-neutral-900">
+                <div className="flex justify-between text-neutral-500 font-bold text-[9px] uppercase tracking-wider">
+                  <span>Input SKU Stream</span>
+                  <span className="text-orange-400">unstructured</span>
+                </div>
+                <span className="text-neutral-300 break-all select-none">
+                  "49-94-0101, Milw 4-1/2\"x.045\"x7/8\" Perform+ Metal Cut Off
+                  Disc 10pc"
+                </span>
+              </div>
+
+              {/* Progress Connector line */}
+              <div className="flex items-center gap-3 px-4 text-neutral-600 select-none">
+                <div className="h-[1px] flex-grow bg-gradient-to-r from-neutral-900 via-[#1f1f23] to-neutral-900"></div>
+                <span className="text-[10px] animate-pulse">
+                  ⚡ Ingesting...
+                </span>
+                <div className="h-[1px] flex-grow bg-gradient-to-r from-neutral-900 via-[#1f1f23] to-neutral-900"></div>
+              </div>
+
+              {/* Row 2: Enriched output */}
+              <div className="flex flex-col gap-2 p-3 rounded-xl bg-neutral-950/90 border border-emerald-950/40">
+                <div className="flex justify-between text-neutral-500 font-bold text-[9px] uppercase tracking-wider">
+                  <span>Enriched Record Node</span>
+                  <span className="text-emerald-400 font-bold flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-ping"></span>
+                    standardized
+                  </span>
+                </div>
+                <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-[10px] text-neutral-300">
+                  <div>
+                    <span className="text-[#0284c7]">"Product_Name"</span>:
+                    "Cut-Off Disc"
+                  </div>
+                  <div>
+                    <span className="text-[#0284c7]">"BRAND_NAME"</span>:
+                    "Milwaukee"
+                  </div>
+                  <div>
+                    <span className="text-[#0284c7]">"Diameter"</span>: "4.5 in"
+                  </div>
+                  <div>
+                    <span className="text-[#0284c7]">"Prop_65"</span>: "No"
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom Panel Footer */}
+        <div className="flex justify-between items-center text-[10px] text-neutral-500 font-bold uppercase tracking-wider relative z-10 select-none">
+          <span>Enterprise Secure v4.2</span>
+          <span>&bull; LangGraph Triples Active</span>
+        </div>
+      </div>
+
+      {/* Right Panel: Login Form Card */}
+      <div className="w-full md:w-1/2 lg:w-2/5 flex flex-col justify-between p-8 sm:p-12 md:p-16 bg-[#09090b] relative z-10 h-screen overflow-y-auto">
+        {/* Top Header for Mobile only */}
+        <div className="flex items-center gap-2.5 md:hidden mb-10 select-none">
+          <div className="grid size-8 place-items-center rounded-lg bg-gradient-to-br from-[#0284c7] to-[#075985] p-1 border border-sky-400/10">
+            <img
+              src="/logo.svg"
+              alt="Catalog IQ Logo"
+              className="w-full h-full"
+            />
+          </div>
+          <span className="text-xs font-bold tracking-tight text-white uppercase">
+            CATALOG IQ
+          </span>
+        </div>
+
+        {/* Middle centered form card */}
+        <div className="w-full max-w-sm mx-auto my-auto flex flex-col gap-8 py-8">
+          <div>
+            <h2 className="text-2xl font-bold tracking-tight text-white">
+              Sign in
+            </h2>
+            <p className="text-xs text-neutral-400 font-medium mt-1">
+              Welcome back! Authenticate to access Catalog IQ.
+            </p>
+          </div>
+
+          <div className="flex flex-col gap-5">
+            {/* Social Oauth options */}
+            <div className="grid grid-cols-2 gap-3">
               <button
                 type="button"
                 disabled={isSubmitting}
                 onClick={() =>
                   triggerLogin("google.admin@catalogiq.ai", "google")
                 }
-                className="w-full flex items-center justify-center gap-3 bg-[#f4f4f5] hover:bg-neutral-200/50 border border-[#e4e4e7] rounded-xl py-3 text-xs font-semibold text-neutral-800 transition-all active:scale-[0.98] disabled:opacity-65 cursor-pointer"
+                className="flex items-center justify-center gap-2 bg-[#0c0c0e] hover:bg-[#121214] border border-[#1f1f23] rounded-xl py-2.5 text-xs font-bold text-neutral-200 transition-all active:scale-[0.98] disabled:opacity-50 cursor-pointer"
               >
                 {isSubmitting && activeProvider === "google" ? (
-                  <span className="w-3.5 h-3.5 border-2 border-neutral-800 border-t-transparent rounded-full animate-spin"></span>
+                  <span className="w-3.5 h-3.5 border-2 border-neutral-300 border-t-transparent rounded-full animate-spin"></span>
                 ) : (
                   <svg className="w-3.5 h-3.5" viewBox="0 0 24 24">
                     <path
@@ -140,7 +203,7 @@ export function AuthPage({ onLoginSuccess }: AuthPageProps) {
                     />
                   </svg>
                 )}
-                <span>Continue with Google</span>
+                <span>Google</span>
               </button>
 
               <button
@@ -149,78 +212,65 @@ export function AuthPage({ onLoginSuccess }: AuthPageProps) {
                 onClick={() =>
                   triggerLogin("github.admin@catalogiq.ai", "github")
                 }
-                className="w-full flex items-center justify-center gap-3 bg-[#f4f4f5] hover:bg-neutral-200/50 border border-[#e4e4e7] rounded-xl py-3 text-xs font-semibold text-neutral-800 transition-all active:scale-[0.98] disabled:opacity-65 cursor-pointer"
+                className="flex items-center justify-center gap-2 bg-[#0c0c0e] hover:bg-[#121214] border border-[#1f1f23] rounded-xl py-2.5 text-xs font-bold text-neutral-200 transition-all active:scale-[0.98] disabled:opacity-50 cursor-pointer"
               >
                 {isSubmitting && activeProvider === "github" ? (
-                  <span className="w-3.5 h-3.5 border-2 border-neutral-800 border-t-transparent rounded-full animate-spin"></span>
+                  <span className="w-3.5 h-3.5 border-2 border-neutral-300 border-t-transparent rounded-full animate-spin"></span>
                 ) : (
                   <svg
-                    className="w-3.5 h-3.5 fill-current text-neutral-900"
+                    className="w-3.5 h-3.5 fill-current text-neutral-200"
                     viewBox="0 0 24 24"
                   >
                     <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
                   </svg>
                 )}
-                <span>Continue with GitHub</span>
-              </button>
-
-              <button
-                type="button"
-                disabled={isSubmitting}
-                onClick={() =>
-                  triggerLogin("apple.admin@catalogiq.ai", "apple")
-                }
-                className="w-full flex items-center justify-center gap-3 bg-[#f4f4f5] hover:bg-neutral-200/50 border border-[#e4e4e7] rounded-xl py-3 text-xs font-semibold text-neutral-800 transition-all active:scale-[0.98] disabled:opacity-65 cursor-pointer"
-              >
-                {isSubmitting && activeProvider === "apple" ? (
-                  <span className="w-3.5 h-3.5 border-2 border-neutral-800 border-t-transparent rounded-full animate-spin"></span>
-                ) : (
-                  <svg
-                    className="w-3.5 h-3.5 fill-current text-neutral-900"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 4.17c.66-.81 1.11-1.93.99-3.06-1 .04-2.22.67-2.94 1.5-.64.73-1.2 1.87-1.05 2.97 1.1.09 2.24-.57 3-1.41z" />
-                  </svg>
-                )}
-                <span>Continue with Apple</span>
+                <span>GitHub</span>
               </button>
             </div>
 
             {/* Divider OR */}
-            <div className="flex items-center gap-3 text-neutral-350 my-1 select-none">
-              <div className="h-[1px] flex-grow bg-neutral-200"></div>
-              <span className="text-[10px] font-bold font-sans uppercase">
+            <div className="flex items-center gap-3 text-neutral-600 select-none my-1">
+              <div className="h-[1px] flex-grow bg-[#1f1f23]"></div>
+              <span className="text-[9px] font-bold tracking-widest font-sans uppercase">
                 OR
               </span>
-              <div className="h-[1px] flex-grow bg-neutral-200"></div>
+              <div className="h-[1px] flex-grow bg-[#1f1f23]"></div>
             </div>
 
-            {/* Email & Password form */}
+            {/* Form Inputs */}
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
               <div className="flex flex-col gap-1.5">
-                <label className="text-[9px] text-neutral-400 font-bold uppercase">
-                  Email
+                <label className="text-[9px] text-neutral-400 font-bold uppercase tracking-wider">
+                  Email Address
                 </label>
                 <input
                   type="email"
-                  placeholder="name@example.com"
+                  placeholder="name@company.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="bg-[#f8fafc] border border-[#e4e4e7] rounded-xl px-4 py-2.5 text-xs text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-[#0284c7] transition-all"
+                  className="bg-[#0c0c0e] border border-[#1f1f23] rounded-xl px-4 py-3 text-xs text-white placeholder-neutral-500 focus:outline-none focus:border-[#0284c7] transition-all"
                   required
                 />
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <label className="text-[9px] text-neutral-400 font-bold uppercase">
-                  Password
-                </label>
+                <div className="flex justify-between items-center">
+                  <label className="text-[9px] text-neutral-400 font-bold uppercase tracking-wider">
+                    Password
+                  </label>
+                  <a
+                    href="#"
+                    className="text-[10px] text-[#0284c7] hover:underline font-semibold"
+                  >
+                    Forgot password?
+                  </a>
+                </div>
                 <input
                   type="password"
                   placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="bg-[#f8fafc] border border-[#e4e4e7] rounded-xl px-4 py-2.5 text-xs text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-[#0284c7] transition-all font-mono"
+                  className="bg-[#0c0c0e] border border-[#1f1f23] rounded-xl px-4 py-3 text-xs text-white placeholder-neutral-500 focus:outline-none focus:border-[#0284c7] transition-all font-mono"
                   required
                 />
               </div>
@@ -228,33 +278,75 @@ export function AuthPage({ onLoginSuccess }: AuthPageProps) {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="bg-neutral-950 hover:bg-neutral-800 text-white font-bold py-3 rounded-xl transition-all active:scale-[0.98] text-xs shadow-md mt-1 cursor-pointer"
+                className="bg-[#0284c7] hover:bg-[#0369a1] text-white font-bold py-3.5 rounded-xl transition-all active:scale-[0.98] text-xs shadow-md mt-2 cursor-pointer flex justify-center items-center"
               >
                 {isSubmitting && activeProvider === "email" ? (
                   <span className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
                 ) : (
-                  "Continue"
+                  "Continue with Email"
                 )}
               </button>
             </form>
+          </div>
+        </div>
 
-            {/* Form Footers */}
-            <div className="flex flex-col gap-2 text-center text-[10px] text-neutral-400 font-semibold border-t border-[#e4e4e7] pt-4 leading-relaxed">
-              <a href="#" className="hover:text-neutral-900 transition-colors">
-                Don't have an account? Create your account
-              </a>
-              <span className="text-neutral-350">
-                SSO available on Business and Enterprise plans
-              </span>
-            </div>
+        {/* Footer info at bottom right */}
+        <div className="text-center text-[10px] text-neutral-500 font-medium leading-relaxed max-w-xs mx-auto select-none mt-auto">
+          <span>By signing in, you agree to our </span>
+          <a
+            href="#"
+            className="underline text-neutral-400 hover:text-neutral-200"
+          >
+            Terms of Service
+          </a>{" "}
+          <span>and </span>
+          <a
+            href="#"
+            className="underline text-neutral-400 hover:text-neutral-200"
+          >
+            Privacy Policy
+          </a>
+          <div className="text-neutral-600 mt-2 font-mono text-[9px]">
+            SECURE SHA-256 JWT AUTH
           </div>
         </div>
       </div>
 
-      {/* 3. Bottom Banner Promotion */}
-      <div className="w-full border-t border-[#e4e4e7] py-4 text-center text-[10px] text-neutral-400 font-bold uppercase tracking-wider bg-white shadow-inner">
-        Ask Lovable to build your saas start
-      </div>
+      {/* Floating premium Cookie Banner */}
+      {showCookieBanner && (
+        <div className="fixed bottom-5 right-5 max-w-sm bg-[#0c0c0e] border border-[#1f1f23] p-4.5 rounded-xl flex flex-col gap-3.5 z-50 text-xs shadow-2xl animate-fadeIn">
+          <div className="flex items-start gap-2.5">
+            <span className="text-base select-none mt-0.5">🍪</span>
+            <div className="flex flex-col gap-1 leading-normal">
+              <span className="font-bold text-white">
+                We value your privacy
+              </span>
+              <p className="text-neutral-400 font-medium text-[11px]">
+                We use cookies to secure session tokens, track Monthly SKU
+                quotas, and evaluate compliance metrics. Read our{" "}
+                <a href="#" className="underline text-white hover:text-sky-400">
+                  Privacy Policy
+                </a>
+                .
+              </p>
+            </div>
+          </div>
+          <div className="flex gap-2.5 justify-end">
+            <button
+              onClick={() => setShowCookieBanner(false)}
+              className="text-neutral-400 hover:text-white px-3 py-1.5 rounded-lg transition-colors font-bold text-[11px]"
+            >
+              Reject
+            </button>
+            <button
+              onClick={() => setShowCookieBanner(false)}
+              className="bg-[#0284c7] hover:bg-[#0369a1] text-white font-bold px-4 py-1.5 rounded-lg transition-colors text-[11px] shadow-sm"
+            >
+              Accept All
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
