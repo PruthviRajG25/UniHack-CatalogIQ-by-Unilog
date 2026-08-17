@@ -70,7 +70,57 @@ export async function POST(req: Request) {
     const cleanText = responseText.replace(/```json|```/gi, "").trim();
     const data = JSON.parse(cleanText);
 
-    return NextResponse.json({ success: true, data });
+    // Build automated descriptions based on content guidelines formulas
+    const brand = data.BRAND_NAME || product.E1_Brand || "Generic";
+    const manuf = data.MANUFACTURER_NAME || product.Part_Manuf || "Unknown";
+    const name = data.Product_Name || "Product";
+    const mfgPartNum = product.Mfg_Part_Num || "";
+
+    const spec1 = data["ATTRIBUTE_VALUE 1"]
+      ? `${data["ATTRIBUTE_VALUE 1"]} ${data["ATTRIBUTE_UOM 1"] || ""}`.trim()
+      : "";
+    const spec2 = data["ATTRIBUTE_VALUE 2"]
+      ? `${data["ATTRIBUTE_VALUE 2"]} ${data["ATTRIBUTE_UOM 2"] || ""}`.trim()
+      : "";
+
+    // 1. SHORT_DESC
+    let shortDesc = `${brand} ${mfgPartNum} ${name}`;
+    if (spec1) shortDesc += ` with ${spec1}`;
+    if (spec2) shortDesc += `, ${spec2}`;
+
+    // 2. MOBILE_DESC
+    let mobileDesc = `${manuf} ${brand}, ${name}, ${mfgPartNum}`;
+    if (mobileDesc.length > 80) {
+      mobileDesc = `${brand}, ${name}, ${mfgPartNum}`;
+    }
+    mobileDesc = mobileDesc.slice(0, 80);
+
+    // 3. INVOICE_DESC
+    let invoiceDesc = `${name} ${spec1} ${spec2}`.trim().toUpperCase();
+    if (invoiceDesc.length > 40) {
+      invoiceDesc = `${name} ${mfgPartNum}`.toUpperCase();
+    }
+    invoiceDesc = invoiceDesc.slice(0, 40);
+
+    // 4. LONG_DESC1
+    let longDesc = `${brand} ${name} designed for industrial installations. Part Number: ${mfgPartNum}.`;
+    if (spec1 || spec2) {
+      longDesc += ` Features specs: ${[spec1, spec2].filter(Boolean).join(", ")}.`;
+    }
+    if (data.Standard_Approvals) {
+      longDesc += ` Approvals: ${data.Standard_Approvals}.`;
+    }
+
+    // Merge into data
+    data.SHORT_DESC = shortDesc;
+    data.LONG_DESC1 = longDesc;
+    data.MOBILE_DESC = mobileDesc;
+    data.INVOICE_DESC = invoiceDesc;
+
+    // Simulate RAG rules loaded from vector storage
+    const ragRulesMatched = ["Series", "Dimensions", "Weight", "Approvals"];
+
+    return NextResponse.json({ success: true, data, ragRulesMatched });
   } catch (error: unknown) {
     const errMessage =
       error instanceof Error ? error.message : "Failed to contact Gemini API";

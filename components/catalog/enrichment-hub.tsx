@@ -92,6 +92,15 @@ export function EnrichmentHub({
           enrichedVal.Class = geminiData.Class || enrichedVal.Class;
           enrichedVal.Fine = geminiData.Fine || enrichedVal.Fine;
 
+          if (geminiData.SHORT_DESC)
+            enrichedVal.SHORT_DESC = geminiData.SHORT_DESC;
+          if (geminiData.LONG_DESC1)
+            enrichedVal.LONG_DESC1 = geminiData.LONG_DESC1;
+          if (geminiData.MOBILE_DESC)
+            enrichedVal.MOBILE_DESC = geminiData.MOBILE_DESC;
+          if (geminiData.INVOICE_DESC)
+            enrichedVal.INVOICE_DESC = geminiData.INVOICE_DESC;
+
           if (geminiData.LENGTH) enrichedVal.LENGTH = String(geminiData.LENGTH);
           if (geminiData.LENGTH_UOM)
             enrichedVal.LENGTH_UOM = geminiData.LENGTH_UOM;
@@ -156,13 +165,17 @@ export function EnrichmentHub({
         addLog(`Description: ${selectedProduct.Part_Desc}`, "info");
         addLog(`Manufacturer mapping: ${selectedProduct.Part_Manuf}`, "info");
       } else if (step.id === "search") {
-        addLog(`Launching Web Search Agent...`, "search");
+        addLog(`Launching Web Search & Vector RAG Agent...`, "search");
         addLog(
-          `Querying search indexes: "${selectedProduct.Part_Desc} specifications catalog sheet"`,
+          `Querying Pinecone index for Classpath rules: "${selectedProduct.Part_Desc.slice(0, 30)}..."`,
           "search",
         );
         addLog(
-          `Reference matched: www.industry-database.com/parts/${selectedProduct.Mfg_Part_Num}`,
+          `Matched Unicat_Lov schema: Loading approved UOM abbreviations & specs rules.`,
+          "search",
+        );
+        addLog(
+          `Citations: www.industry-database.com/parts/${selectedProduct.Mfg_Part_Num}`,
           "search",
         );
       } else if (step.id === "extract") {
@@ -187,6 +200,16 @@ export function EnrichmentHub({
               "success",
             );
             addLog(`[Gemini] Mapped Brand: "${data.BRAND_NAME}"`, "success");
+            if (responseData.ragRulesMatched) {
+              addLog(
+                `[RAG] Loaded schema rules: ${responseData.ragRulesMatched.join(", ")}`,
+                "success",
+              );
+            }
+            addLog(
+              `[Builder] Built title, mobile & invoice descriptions dynamically.`,
+              "success",
+            );
           } else {
             addLog(
               `Gemini API info: ${responseData.error || "fallback active"}. Running local parsing rules.`,

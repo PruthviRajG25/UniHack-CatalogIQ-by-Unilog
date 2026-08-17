@@ -132,6 +132,8 @@ export function StructuredTable({
           col.startsWith("ATTRIBUTE_UOM")
         ) {
           val = p[col] || "";
+        } else if (p[col] !== undefined) {
+          val = p[col] || "";
         }
 
         const escaped = String(val).replace(/"/g, '""');

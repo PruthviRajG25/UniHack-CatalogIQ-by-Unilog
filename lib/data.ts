@@ -23,6 +23,8 @@ export interface EnrichedProduct extends Record<string, string> {
   SHORT_DESC: string;
   LONG_DESC1: string;
   MARKETING_DESCRIPTION: string;
+  MOBILE_DESC: string;
+  INVOICE_DESC: string;
   Product_Name: string;
   UPC: string;
   GTIN: string;
@@ -1099,6 +1101,9 @@ export const ENRICHED_CATALOG_SAMPLES: EnrichedProduct[] = [
       "Professional Series Dishwasher, Leg Mounting, 5-Wash Cycle, Stainless Steel",
     MARKETING_DESCRIPTION:
       "Professional Series Dishwasher, Leg Mounting, 5-Wash Cycle, Stainless Steel",
+    MOBILE_DESC:
+      "Rheem Manufacturing FRIGIDAIRE®, Dishwasher, Professional Series, PDSH4816AF",
+    INVOICE_DESC: "DISHWASHER LEG 5 SST 120V 15A 50-1/4IN",
     Product_Name: "Dishwasher",
     UPC: "123", // Error: invalid UPC format (must be 12 digits)
     GTIN: "00012505248165",
@@ -1144,6 +1149,9 @@ export const ENRICHED_CATALOG_SAMPLES: EnrichedProduct[] = [
       "Whirlpool® Dishwasher, Eco Series, 120 V, 10 A, Built-in Mounting",
     MARKETING_DESCRIPTION:
       "Load more and run less with our quietest dishwasher.",
+    MOBILE_DESC:
+      "Whirlpool Corporation Whirlpool®, Dishwasher, Eco Series, WDTS7024RZ",
+    INVOICE_DESC: "ECO SERIES DISHWASHER 120V 10A",
     Product_Name: "Dishwasher",
     UPC: "088304928603",
     GTIN: "00088304928603",
@@ -1183,6 +1191,9 @@ export const ENRICHED_CATALOG_SAMPLES: EnrichedProduct[] = [
     SHORT_DESC: 'Milwaukee 5" Metal Cut Off Disc',
     LONG_DESC1: "High speed steel cutting wheel for angle grinders.",
     MARKETING_DESCRIPTION: "Heavy duty metal slicing blades.",
+    MOBILE_DESC:
+      "Milwaukee Electric Tool Milwaukee®, Cut Off Disc, 5 In, 49-94-0013",
+    INVOICE_DESC: "MILWAUKEE 5IN METAL CUT OFF DISC",
     Product_Name: "Cut Off Disc",
     UPC: "045242301931",
     GTIN: "00045242301931",
@@ -1223,6 +1234,8 @@ export const ENRICHED_CATALOG_SAMPLES: EnrichedProduct[] = [
     SHORT_DESC: "Wera 9516 Kneeling Pad & Bottle Opener",
     LONG_DESC1: "Ergonomic pad for mechanics containing branded bottle opener.",
     MARKETING_DESCRIPTION: "Protect your knees on hard workshop floors.",
+    MOBILE_DESC: "Wera Tools Wera®, Kneeling Pad, 9516, 05134545001",
+    INVOICE_DESC: "WERA 9516 KNEELING PAD BOTTLE OPENER",
     Product_Name: "Kneeling Pad",
     UPC: "4013288220011",
     GTIN: "12345", // Error: invalid GTIN format (must be 14 digits)
@@ -1263,6 +1276,8 @@ export const ENRICHED_CATALOG_SAMPLES: EnrichedProduct[] = [
     LONG_DESC1: "Select composite T-Rail kit containing composite balusters.",
     MARKETING_DESCRIPTION:
       "Low maintenance high performance composite railings.",
+    MOBILE_DESC: "Trex Company Trex®, Railing Kit, Select Horiz, 543302126",
+    INVOICE_DESC: "TREX SELECT RAILING KIT HORIZONTAL",
     Product_Name: "Railing Kit",
     UPC: "704832543302",
     GTIN: "00704832543302",
@@ -1302,6 +1317,8 @@ export const ENRICHED_CATALOG_SAMPLES: EnrichedProduct[] = [
       "Revolutionary precision shaped grain discs for sanding surfaces.",
     MARKETING_DESCRIPTION:
       "Cuts faster and lasts longer than traditional abrasives.",
+    MOBILE_DESC: "3M Company 3M™, Sanding Disc, Cubitron II, 3MABR-7100075678",
+    INVOICE_DESC: "3M STIKIT FILM DISC P150",
     Product_Name: "Sanding Disc",
     UPC: "051141551048",
     GTIN: "00051141551048",
@@ -1591,6 +1608,31 @@ export function simulateEnrichment(
 
   const qualityScore = String(80 + Math.floor(Math.random() * 20));
 
+  const spec1 = attrs["ATTRIBUTE_VALUE 1"]
+    ? `${attrs["ATTRIBUTE_VALUE 1"]} ${attrs["ATTRIBUTE_UOM 1"] || ""}`.trim()
+    : "";
+  const spec2 = attrs["ATTRIBUTE_VALUE 2"]
+    ? `${attrs["ATTRIBUTE_VALUE 2"]} ${attrs["ATTRIBUTE_UOM 2"] || ""}`.trim()
+    : "";
+
+  let shortDesc = `${brand} ${raw.Mfg_Part_Num} ${name}`;
+  if (spec1) shortDesc += ` with ${spec1}`;
+  if (spec2) shortDesc += `, ${spec2}`;
+
+  let mobileDesc = `${manuf} ${brand}, ${name}, ${raw.Mfg_Part_Num}`;
+  if (mobileDesc.length > 80) {
+    mobileDesc = `${brand}, ${name}, ${raw.Mfg_Part_Num}`;
+  }
+  mobileDesc = mobileDesc.slice(0, 80);
+
+  let invoiceDesc = `${name} ${spec1} ${spec2}`.trim().toUpperCase();
+  if (invoiceDesc.length > 40) {
+    invoiceDesc = `${name} ${raw.Mfg_Part_Num}`.toUpperCase();
+  }
+  invoiceDesc = invoiceDesc.slice(0, 40);
+
+  const longDesc = `${brand} ${name} designed for commercial and industrial installation. Manufacturing part number ${raw.Mfg_Part_Num}. Brand mapping verified to ${brand}. Made in USA.`;
+
   return {
     PART_NUMBER: numId,
     Dept: dept,
@@ -1602,9 +1644,11 @@ export function simulateEnrichment(
     MANUFACTURER_NAME: manuf,
     BRAND_NAME: brand,
     Classpath: classpath,
-    SHORT_DESC: `${brand} ${name} ${raw.Mfg_Part_Num} - High Durability`,
-    LONG_DESC1: `${brand} ${name} designed for commercial and industrial installation. Manufacturing part number ${raw.Mfg_Part_Num}. Brand mapping verified to ${brand}. Made in USA.`,
+    SHORT_DESC: shortDesc,
+    LONG_DESC1: longDesc,
     MARKETING_DESCRIPTION: `Industrial-grade ${name.toLowerCase()} suitable for heavy-duty professional deployment.`,
+    MOBILE_DESC: mobileDesc,
+    INVOICE_DESC: invoiceDesc,
     Product_Name: name,
     UPC: upc,
     GTIN: `00${upc}`,
