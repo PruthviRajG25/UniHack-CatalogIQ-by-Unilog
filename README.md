@@ -1,4 +1,4 @@
-# 🧬 CatalogIQ — AI-Powered Enterprise Product Catalog Ingestor
+# 🧬 CatalogIQ —- AI-Powered Enterprise Product Catalog Ingestor
 
 [![Vercel Deployment](https://img.shields.io/badge/Vercel-Deployed-black?style=for-the-badge&logo=vercel)](https://unihack-catalogiq.vercel.app)
 [![Next.js](https://img.shields.io/badge/Next.js-16%20%28Turbopack%29-blue?style=for-the-badge&logo=next.js)](https://nextjs.org)
